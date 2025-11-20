@@ -72,4 +72,25 @@ export class CourseController {
       res.status(500).json({ error: 'Failed to fetch courses' });
     }
   };
+
+  getCoursesByStudent = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { student_id } = req.params;
+      
+      if (!student_id) {
+        res.status(400).json({ error: 'student_id is required' });
+        return;
+      }
+
+      const courses = await this.courseService.getCoursesByStudent(Number(student_id));
+      
+      res.status(200).json(courses);
+    } catch (error) {
+      if (error.message === 'Student not found') {
+        res.status(404).json({ error: error.message });
+        return;
+      }
+      res.status(500).json({ error: 'Failed to fetch courses' });
+    }
+  };
 }

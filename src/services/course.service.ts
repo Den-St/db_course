@@ -1,10 +1,14 @@
 import { getRepository } from 'typeorm';
 import { Course } from '../orm/entities/Course.entity';
 import { Teacher } from '../orm/entities/Teacher.entity';
+import { Student } from '../orm/entities/Student.entity';
+import { Enrollment } from '../orm/entities/Enrollment.entity';
 
 export class CourseService {
   private courseRepository = getRepository(Course);
   private teacherRepository = getRepository(Teacher);
+  private studentRepository = getRepository(Student);
+  private enrollmentRepository = getRepository(Enrollment);
 
   async create(data: {
     name: string;
@@ -60,5 +64,22 @@ export class CourseService {
       where: { teacher_id: teacherId },
       relations: ['teacher'],
     });
+  }
+
+  async getCoursesByStudent(student_id: number): Promise<Course[]> {
+    const student = await this.studentRepository.findOne({
+      where: { id: student_id },
+    });
+    
+    if (!student) {
+      throw new Error('Student not found');
+    }
+
+    const enrollments = await this.enrollmentRepository.find({
+      where: { student_id },
+      relations: ['course', 'course.teacher'],
+    });
+
+    return enrollments.map(enrollment => enrollment.course);
   }
 }

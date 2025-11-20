@@ -43,6 +43,7 @@ const port = process.env.PORT || 4000;
     const gradeRoutes = (await import('./routes/grade.routes')).default;
     const assignmentRoutes = (await import('./routes/assignment.routes')).default;
     const submissionRoutes = (await import('./routes/submission.routes')).default;
+    const enrollmentRoutes = (await import('./routes/enrollment.routes')).default;
 
     // Register routes
     app.use('/parents', parentRoutes);
@@ -57,6 +58,7 @@ const port = process.env.PORT || 4000;
     app.use('/grades', gradeRoutes);
     app.use('/assignments', assignmentRoutes);
     app.use('/submissions', submissionRoutes);
+    app.use('/enrollments', enrollmentRoutes);
 
     // Default route
     app.get('/', (_req, res) => res.send('🚀 API is running'));
