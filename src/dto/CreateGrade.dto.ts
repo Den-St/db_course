@@ -1,26 +1,25 @@
-import { IsInt, IsString, IsOptional, IsNumber, Min, Max } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateGradeDto {
-  @IsInt()
-  student_id: number;
+  @IsNotEmpty()
+  @Type(() => Number)
+  @IsNumber()
+  submission_id: number;
 
-  @IsInt()
-  course_id: number;
-
-  @IsInt()
   @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
   teacher_id?: number;
 
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
   @Min(0)
   @Max(100)
-  @IsOptional()
   grade?: number;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   source?: string;
-
-  @IsInt()
-  submission_id: number;
 }

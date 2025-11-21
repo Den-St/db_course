@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Check } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Check, OneToMany } from 'typeorm';
 
 import { Parent } from './Parent.entity';
 import { User } from './User.entity';
 import { Group } from './Group.entity';
+import { TuitionFee } from './TuitionFee.entity';
 
 @Entity('students')
 @Check(`EXTRACT(YEAR FROM AGE(birth_date)) >= 6`)
@@ -54,4 +55,11 @@ export class Student {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToMany(() => TuitionFee,(fee) => fee.student_id, { nullable: true })
+  @JoinColumn({ name: 'tuition_fee_id' })
+  tuition_fee: TuitionFee;
+
+  @Column({ type: 'int', nullable: true })
+  tuition_fee_id: number;
 }

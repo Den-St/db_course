@@ -11,20 +11,6 @@ export class Grade {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Student, { nullable: true })
-  @JoinColumn({ name: 'student_id' })
-  student: Student;
-
-  @Column({ type: 'int' })
-  student_id: number;
-
-  @ManyToOne(() => Course, { nullable: true })
-  @JoinColumn({ name: 'course_id' })
-  course: Course;
-
-  @Column({ type: 'int' })
-  course_id: number;
-
   @ManyToOne(() => Teacher, { nullable: true })
   @JoinColumn({ name: 'teacher_id' })
   teacher: Teacher;

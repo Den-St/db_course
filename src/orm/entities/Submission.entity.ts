@@ -5,7 +5,6 @@ import { Student } from './Student.entity';
 import { Grade } from './Grade.entity';
 
 @Entity('submissions')
-@Check(`grade >= 0 AND grade <= 100`)
 @Unique(['assignment_id', 'student_id'])
 export class Submission {
   @PrimaryGeneratedColumn()

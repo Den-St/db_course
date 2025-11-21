@@ -13,7 +13,6 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
             IF TG_OP = 'INSERT' THEN
               INSERT INTO grade_changes_log(
                 grade_id,
-                student_id,
                 old_grade,
                 new_grade,
                 changed_by_teacher_id,
@@ -21,7 +20,6 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
               )
               VALUES (
                 NEW.id,
-                NEW.student_id,
                 NULL,          -- no old value
                 NEW.grade,     -- new grade
                 NEW.teacher_id,
@@ -34,7 +32,6 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
             IF TG_OP = 'UPDATE' THEN
               INSERT INTO grade_changes_log(
                 grade_id,
-                student_id,
                 old_grade,
                 new_grade,
                 changed_by_teacher_id,
@@ -42,7 +39,6 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
               )
               VALUES (
                 NEW.id,
-                NEW.student_id,
                 OLD.grade,     -- old grade
                 NEW.grade,     -- updated grade
                 NEW.teacher_id,
@@ -60,7 +56,7 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
         // 2. Create AFTER INSERT trigger
         //
         await queryRunner.query(`
-          CREATE TRIGGER grade_insert_log_trigger
+          CREATE OR REPLACE TRIGGER grade_insert_log_trigger
           AFTER INSERT ON grades
           FOR EACH ROW
           EXECUTE FUNCTION log_grade_change();
@@ -70,7 +66,7 @@ export class GradesChangeLogTrigger1763487933369 implements MigrationInterface {
         // 3. Create AFTER UPDATE trigger
         //
         await queryRunner.query(`
-          CREATE TRIGGER grade_update_log_trigger
+          CREATE OR REPLACE TRIGGER grade_update_log_trigger
           AFTER UPDATE OF grade ON grades
           FOR EACH ROW
           WHEN (OLD.grade IS DISTINCT FROM NEW.grade)

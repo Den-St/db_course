@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Check } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Check, OneToOne } from 'typeorm';
 
 import { Group } from './Group.entity';
+import { Student } from './Student.entity';
+import { Payment } from './Payment.entity';
 
 @Entity('tuition_fees')
 @Check(`amount >= 0`)
@@ -8,12 +10,12 @@ export class TuitionFee {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Group, { nullable: true })
-  @JoinColumn({ name: 'group_id' })
-  group: Group;
+  @ManyToOne(() => Student, { nullable: true })
+  @JoinColumn({ name: 'student_id' })
+  student: Student;
 
   @Column({ type: 'int', nullable: true })
-  group_id: number;
+  student_id: number;
 
   @Column({ type: 'date' })
   period_start: Date;
@@ -29,4 +31,11 @@ export class TuitionFee {
 
   @Column({ type: 'text', nullable: true })
   description: string;
+
+  @OneToOne(() => Payment, { nullable: true })
+  @JoinColumn({ name: 'student_id' })
+  payment: Payment;
+
+  @Column({ type: 'int', nullable: true })
+  payment_id: number;
 }

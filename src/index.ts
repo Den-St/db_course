@@ -44,6 +44,8 @@ const port = process.env.PORT || 4000;
     const assignmentRoutes = (await import('./routes/assignment.routes')).default;
     const submissionRoutes = (await import('./routes/submission.routes')).default;
     const enrollmentRoutes = (await import('./routes/enrollment.routes')).default;
+    const assignmentFeedbackRoutes = (await import('./routes/assignmentFeedback.routes')).default;
+    const tuitionFeeRoutes = (await import('./routes/tuitionFee.routes')).default;
 
     // Register routes
     app.use('/parents', parentRoutes);
@@ -59,6 +61,8 @@ const port = process.env.PORT || 4000;
     app.use('/assignments', assignmentRoutes);
     app.use('/submissions', submissionRoutes);
     app.use('/enrollments', enrollmentRoutes);
+    app.use('/assignmentFeedbacks', assignmentFeedbackRoutes);
+    app.use('/tuitionFees', tuitionFeeRoutes);
 
     // Default route
     app.get('/', (_req, res) => res.send('🚀 API is running'));

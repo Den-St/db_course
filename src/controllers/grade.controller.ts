@@ -5,6 +5,7 @@ import { GradeService } from '../services/grade.service';
 import { CreateGradeDto } from '../dto/CreateGrade.dto';
 import { UpdateGradeDto } from '../dto/UpdateGrade.dto';
 import { GetGroupAverageGradeDto } from '../dto/GetGroupAverageGrade.dto';
+import { GetStudentGradesInRangeDto } from '../dto/GetStudentGradesInRange.dto';
 
 export class GradeController {
   private gradeService: GradeService;
@@ -108,6 +109,20 @@ export class GradeController {
         success: false,
         message: error.message || 'Failed to retrieve group average grade'
       });
+    }
+  };
+
+  getStudentGradesInRange = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { student_id, start_date, end_date } = req.query;
+      const result = await this.gradeService.getStudentGradesInRange(
+        parseInt(student_id as string),
+        start_date as string,
+        end_date as string
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
   };
 }
