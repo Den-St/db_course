@@ -33,7 +33,7 @@ export class TuitionFee {
   description: string;
 
   @OneToOne(() => Payment, { nullable: true })
-  @JoinColumn({ name: 'student_id' })
+  @JoinColumn({ name: 'payment_id' })
   payment: Payment;
 
   @Column({ type: 'int', nullable: true })

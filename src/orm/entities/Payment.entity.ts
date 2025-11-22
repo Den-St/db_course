@@ -9,13 +9,6 @@ export class Payment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Student, { nullable: true })
-  @JoinColumn({ name: 'student_id' })
-  student: Student;
-
-  @Column({ type: 'int', nullable: true })
-  student_id: number;
-
   @ManyToOne(() => TuitionFee, { nullable: true })
   @JoinColumn({ name: 'tuition_fee_id' })
   tuition_fee: TuitionFee;
